@@ -5,5 +5,54 @@
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
+<changeSet id="0714" author="maroof">
+    <sql>
+        CREATE TABLE `musala`.`gateway` (
+        `ID` INT NOT NULL,
+        `NAME` VARCHAR(45) NULL,
+        `IPV4` VARCHAR(45) NULL);
 
+    </sql>
+</changeSet>
+<changeSet id="0716" author="maroof">
+    <sql>
+        ALTER TABLE `musala`.`gateway`
+        ADD COLUMN `serial_number` VARCHAR(45) NULL AFTER `IPV4`,
+        ADD PRIMARY KEY (`ID`),
+        ADD UNIQUE INDEX `serial_number_UNIQUE` (`serial_number` ASC) VISIBLE;
+        ;
+
+    </sql>
+</changeSet>
+    <changeSet id="0722" author="maroof">
+        <sql>
+            CREATE TABLE `musala`.`device` (
+            `id` INT NOT NULL,
+            `vendor` VARCHAR(45) NULL,
+            `date_created` DATETIME NULL,
+            `status` VARCHAR(45) NULL,
+            `gateway_id` VARCHAR(45) NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `gateway_id`
+            FOREIGN KEY (`id`)
+            REFERENCES `musala`.`gateway` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION);
+        </sql>
+    </changeSet>
+    <changeSet id="0728" author="maroof">
+        <sql>
+            ALTER TABLE `musala`.`device`
+            CHANGE COLUMN `gateway_id` `gateway_id` INT NOT NULL ,
+            ADD INDEX `gateway-forignKey_idx` (`gateway_id` ASC) VISIBLE;
+            ;
+            ALTER TABLE `musala`.`device`
+            ADD CONSTRAINT `gateway-forignKey`
+            FOREIGN KEY (`gateway_id`)
+            REFERENCES `musala`.`gateway` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
+
+        </sql>
+    </changeSet>
 </databaseChangeLog>
