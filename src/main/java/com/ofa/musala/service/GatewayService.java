@@ -4,11 +4,11 @@ import com.ofa.musala.model.Device;
 import com.ofa.musala.model.Gateway;
 import com.ofa.musala.payload.requests.AddGateWayRequest;
 import com.ofa.musala.payload.responses.AddGateWayResponse;
+import com.ofa.musala.repos.DeviceRepository;
 import com.ofa.musala.repos.GatewayRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +17,9 @@ public class GatewayService {
 
     @Autowired
     GatewayRepository gatewayRepository;
+
+    @Autowired
+    DeviceRepository deviceRepository;
 
     public AddGateWayResponse addGateway (AddGateWayRequest addGateWayRequest)
     {
@@ -31,11 +34,13 @@ public class GatewayService {
             tempDevice.setGateway(gateway);
             deviceSet.add(tempDevice);
         });
-        gateway.setDeviceSet(deviceSet);
-       Gateway returnedGateway =  gatewayRepository.save(gateway);
+        Gateway returnedGateway =  gatewayRepository.save(gateway);
+         deviceRepository.saveAll(deviceSet);
+
 
        if( null != returnedGateway)
        {
+
            return new AddGateWayResponse("200", "succss add gateway" , returnedGateway);
        }
        else
