@@ -22,6 +22,7 @@ public class AddGateWayRequest implements Serializable {
     @Size(max = 45 ,message = "size limit to 45 char")
     public String IPV4;
 
+    @Size(min=1, max=10 , message = "number of devices must between 1 : 10")
     public Set<DeviceDto> devices ;
 
     public String getName() {

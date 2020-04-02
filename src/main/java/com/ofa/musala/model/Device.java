@@ -1,5 +1,7 @@
 package com.ofa.musala.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -26,6 +28,7 @@ public class Device {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gateway_id", nullable = false)
+    @JsonIgnore
     private Gateway gateway;
 
 

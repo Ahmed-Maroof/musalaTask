@@ -10,6 +10,7 @@ import com.ofa.musala.repos.GatewayRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,34 +23,27 @@ public class GatewayService {
     @Autowired
     DeviceRepository deviceRepository;
 
-    public AddGateWayResponse addGateway (AddGateWayRequest addGateWayRequest)
-    {
+    public AddGateWayResponse addGateway(AddGateWayRequest addGateWayRequest) {
 
         ModelMapper modelMapper = new ModelMapper();
-        Gateway gateway  = modelMapper.map(addGateWayRequest , Gateway.class);
+        Gateway gateway = modelMapper.map(addGateWayRequest, Gateway.class);
 
         Set<Device> deviceSet = new HashSet<>();
 
-        for (DeviceDto deviceDto: addGateWayRequest.getDevices()  ) {
+        for (DeviceDto deviceDto : addGateWayRequest.getDevices()) {
 
-            Device tempDevice = modelMapper.map(deviceDto , Device.class);
+            Device tempDevice = modelMapper.map(deviceDto, Device.class);
             tempDevice.setGateway(gateway);
             deviceSet.add(tempDevice);
         }
+        Gateway returnedGateway = gatewayRepository.save(gateway);
 
-        Gateway returnedGateway =  gatewayRepository.save(gateway);
-
-
-
-       if( null != returnedGateway)
-       {
-           deviceRepository.saveAll(deviceSet);
-//           returnedGateway.setDeviceSet(deviceSet);
-           return new AddGateWayResponse("200", "succss add gateway" , returnedGateway);
-       }
-       else
-       {
-           return  new AddGateWayResponse("400" , "error in adding gatway");
-       }
+        if (null != returnedGateway) {
+            deviceRepository.saveAll(deviceSet);
+            returnedGateway.setDeviceSet(deviceSet);
+            return new AddGateWayResponse("200", "succss add gateway", returnedGateway);
+        } else {
+            return new AddGateWayResponse("400", "error in adding gatway");
+        }
     }
 }
