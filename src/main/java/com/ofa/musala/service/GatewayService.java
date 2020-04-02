@@ -1,5 +1,6 @@
 package com.ofa.musala.service;
 
+import com.ofa.musala.dto.DeviceDto;
 import com.ofa.musala.model.Device;
 import com.ofa.musala.model.Gateway;
 import com.ofa.musala.payload.requests.AddGateWayRequest;
@@ -28,19 +29,22 @@ public class GatewayService {
         Gateway gateway  = modelMapper.map(addGateWayRequest , Gateway.class);
 
         Set<Device> deviceSet = new HashSet<>();
-        addGateWayRequest.getDevices().forEach(e->
-        {
-            Device tempDevice = modelMapper.map(e , Device.class);
+
+        for (DeviceDto deviceDto: addGateWayRequest.getDevices()  ) {
+
+            Device tempDevice = modelMapper.map(deviceDto , Device.class);
             tempDevice.setGateway(gateway);
             deviceSet.add(tempDevice);
-        });
+        }
+
         Gateway returnedGateway =  gatewayRepository.save(gateway);
-         deviceRepository.saveAll(deviceSet);
+
 
 
        if( null != returnedGateway)
        {
-
+           deviceRepository.saveAll(deviceSet);
+//           returnedGateway.setDeviceSet(deviceSet);
            return new AddGateWayResponse("200", "succss add gateway" , returnedGateway);
        }
        else

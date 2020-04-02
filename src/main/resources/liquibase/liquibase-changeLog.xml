@@ -55,4 +55,19 @@
 
         </sql>
     </changeSet>
+    <changeSet id="0822" author="maroof">
+        <sql>
+            ALTER TABLE `musala`.`device`
+            DROP FOREIGN KEY `FKq1cskqsy9nxmn4syxncvk1s0o`;
+            ALTER TABLE `musala`.`device`
+            ;
+            ALTER TABLE `musala`.`device` RENAME INDEX `FKq1cskqsy9nxmn4syxncvk1s0o` TO `gatway-forginKey`;
+            ALTER TABLE `musala`.`device` ALTER INDEX `gatway-forginKey` VISIBLE;
+            ALTER TABLE `musala`.`device`
+            ADD CONSTRAINT `gatway-forginKey`
+            FOREIGN KEY (`gateway_id`)
+            REFERENCES `musala`.`gateway` (`id`);
+
+        </sql>
+    </changeSet>
 </databaseChangeLog>
