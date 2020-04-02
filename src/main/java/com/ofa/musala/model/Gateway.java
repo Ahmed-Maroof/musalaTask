@@ -1,5 +1,6 @@
 package com.ofa.musala.model;
 
+import com.ofa.musala.util.IPV4;
 import javax.persistence.*;
 import java.util.Set;
 

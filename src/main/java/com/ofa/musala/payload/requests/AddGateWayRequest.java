@@ -1,6 +1,7 @@
 package com.ofa.musala.payload.requests;
 
 import com.ofa.musala.dto.DeviceDto;
+import com.ofa.musala.util.IPV4;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -20,6 +21,7 @@ public class AddGateWayRequest implements Serializable {
 
     @NotBlank
     @Size(max = 45 ,message = "size limit to 45 char")
+    @IPV4
     public String IPV4;
 
     @Size(min=1, max=10 , message = "number of devices must between 1 : 10")
