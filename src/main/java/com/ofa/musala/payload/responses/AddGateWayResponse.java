@@ -1,6 +1,8 @@
 package com.ofa.musala.payload.responses;
 
-public class AddGateWayResponse {
+import java.io.Serializable;
+
+public class AddGateWayResponse implements Serializable {
 
     String code;
     String msg ;
