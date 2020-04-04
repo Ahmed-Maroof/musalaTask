@@ -57,8 +57,15 @@ public class WSController {
 
 
 
-//    @DeleteMapping("/employees/{id}")
-//    void deleteEmployee(@PathVariable Long id) {
-//        repository.deleteById(id);
-//    }
+    @DeleteMapping("/device/{id}")
+    public ResponseEntity deleteDevice(@PathVariable Long id) {
+      try {
+          deviceService.deleteById(id);
+          return ResponseEntity.ok( new GeneralResponse(200 , "deleted!"));
+      }catch (Exception e)
+      {
+          return ResponseEntity.ok( new GeneralResponse(404 , e.getMessage()));
+      }
+
+    }
 }

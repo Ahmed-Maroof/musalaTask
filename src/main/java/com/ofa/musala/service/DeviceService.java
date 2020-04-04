@@ -44,4 +44,9 @@ public class DeviceService {
 
          }
     }
+
+    public void deleteById(Long id) {
+
+        deviceRepository.deleteById(id);
+    }
 }
